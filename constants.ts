@@ -5,8 +5,8 @@ const PLACEHOLDER_IMG = (seed: string) => `https://picsum.photos/seed/${seed}/40
 
 // export const WHATSAPP_NUMBER = "919876543210"; // Replace with actual cafe owner number
 export const WHATSAPP_NUMBERS = [
-  { label: "Main Counter", number: "918600135430" },
-  { label: "Manager", number: "919975325430" }
+  { label: "WhatsApp", number: "919404509505" },
+  { label: "Manager", number: "918600135430" }
 ];
 
 export const INITIAL_MENU: Category[] = [

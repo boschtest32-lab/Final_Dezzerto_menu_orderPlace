@@ -428,7 +428,7 @@ function App() {
     });
     message += `------------------------\n`;
     message += `*Total Amount: ₹${cartTotal}*\n`;
-    message += `\nThank you for choosing the Sweet Side of Life! 🍨`;
+    message += `\nThank you for ordering! 🍨 \n*Contact us on 91566 68204*`;
 
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/${targetNumber}?text=${encodedMessage}`;
