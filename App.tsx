@@ -15,7 +15,7 @@ import {
   ImageOff
 } from 'lucide-react';
 import { Category, SubCategory, Product, CartItem, Order } from './types';
-import { INITIAL_MENU, WHATSAPP_NUMBER } from './constants';
+import { INITIAL_MENU, WHATSAPP_NUMBERS } from './constants';
 import { GeminiAssistant } from './components/GeminiAssistant';
 
 // --- Constants & Styles ---
@@ -413,7 +413,7 @@ function App() {
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  const placeOrder = () => {
+  const placeOrder = (targetNumber: string) => {
     if (!mobileNumber) {
       alert("Please enter your mobile number");
       return;
@@ -431,7 +431,7 @@ function App() {
     message += `\nThank you for choosing the Sweet Side of Life! 🍨`;
 
     const encodedMessage = encodeURIComponent(message);
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    const url = `https://wa.me/${targetNumber}?text=${encodedMessage}`;
 
     window.open(url, '_blank');
   };
@@ -630,14 +630,31 @@ function App() {
               <span className="text-2xl font-bold">₹{cartTotal}</span>
             </div>
 
-            <button
-              onClick={placeOrder}
-              disabled={!mobileNumber}
-              className="w-full bg-blue-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              <span className="bg-white/20 p-1 rounded-full"><Send size={18} /></span>
-              Place Order on WhatsApp
-            </button>
+            {WHATSAPP_NUMBERS.length > 1 ? (
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-gray-500 uppercase mb-1">Select Order Line</p>
+                {WHATSAPP_NUMBERS.map((wa, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => placeOrder(wa.number)}
+                    disabled={!mobileNumber}
+                    className="w-full bg-blue-900 text-white py-3 rounded-xl font-bold text-base hover:bg-blue-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <span className="bg-white/20 p-1 rounded-full"><Send size={16} /></span>
+                    Order via {wa.label}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <button
+                onClick={() => placeOrder(WHATSAPP_NUMBERS[0]?.number)}
+                disabled={!mobileNumber}
+                className="w-full bg-blue-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                <span className="bg-white/20 p-1 rounded-full"><Send size={18} /></span>
+                Place Order on WhatsApp
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -667,16 +684,6 @@ function App() {
         onHomeClick={goHome}
         onResetMenu={handleResetMenu}
       />
-
-      {/* Breadcrumb / Back Navigation */}
-      {/* {viewStack.length > 1 && (
-        <div className="sticky top-[108px] z-40 bg-[#A2C5EB]/95 backdrop-blur-sm px-4 py-2 border-b border-white/20 flex items-center gap-2 shadow-sm">
-          <button onClick={goBack} className="p-1 hover:bg-white/20 rounded-full transition-colors text-white">
-            <ArrowLeft size={20} />
-          </button>
-          <span className="font-bold text-[#004080] text-lg">{viewTitle}</span>
-        </div>
-      )} */}
 
       {viewStack.length > 1 && (
         <div className="sticky top-[108px] z-40 bg-[#A2C5EB]/95 backdrop-blur-sm px-4 py-2 border-b border-white/20 flex items-center gap-2 shadow-sm">

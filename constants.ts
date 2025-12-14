@@ -3,7 +3,11 @@ import { Category } from './types';
 // Placeholder images
 const PLACEHOLDER_IMG = (seed: string) => `https://picsum.photos/seed/${seed}/400/400`;
 
-export const WHATSAPP_NUMBER = "919876543210"; // Replace with actual cafe owner number
+// export const WHATSAPP_NUMBER = "919876543210"; // Replace with actual cafe owner number
+export const WHATSAPP_NUMBERS = [
+  { label: "Main Counter", number: "918600135430" },
+  { label: "Manager", number: "919975325430" }
+];
 
 export const INITIAL_MENU: Category[] = [
   {
