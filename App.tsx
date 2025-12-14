@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  ShoppingCart, 
-  ChevronLeft, 
-  Plus, 
-  Minus, 
-  Phone, 
-  Send, 
-  Edit3, 
-  Upload, 
+import {
+  ShoppingCart,
+  ChevronLeft,
+  Plus,
+  Minus,
+  Phone,
+  Send,
+  Edit3,
+  Upload,
   ArrowLeft,
   ShoppingBag,
   Search,
@@ -50,25 +50,25 @@ const BLUE_GRID_STYLE: React.CSSProperties = {
 
 // --- Helper Components ---
 
-interface HeaderProps { 
-  cartCount: number; 
-  onCartClick: () => void; 
-  adminMode: boolean; 
+interface HeaderProps {
+  cartCount: number;
+  onCartClick: () => void;
+  adminMode: boolean;
   onToggleAdmin: () => void;
   onHomeClick: () => void;
   onResetMenu: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ 
-  cartCount, 
-  onCartClick, 
-  adminMode, 
-  onToggleAdmin, 
+const Header: React.FC<HeaderProps> = ({
+  cartCount,
+  onCartClick,
+  adminMode,
+  onToggleAdmin,
   onHomeClick,
   onResetMenu
 }) => (
-  <header 
-    className="sticky top-0 z-50 shadow-xl transition-colors pb-6 rounded-b-[40px]" 
+  <header
+    className="sticky top-0 z-50 shadow-xl transition-colors pb-6 rounded-b-[40px]"
     style={PINK_GRID_STYLE}
   >
     <div className="max-w-md mx-auto px-4 pt-6 flex justify-between items-center bg-[#EA9AB2]/10 backdrop-blur-[1px]">
@@ -82,23 +82,23 @@ const Header: React.FC<HeaderProps> = ({
       </div>
       <div className="flex items-center gap-3">
         {adminMode && (
-           <button 
-             onClick={onResetMenu}
-             className="p-2 text-red-600 bg-white/80 rounded-full hover:bg-white"
-             title="Reset Menu Data"
-           >
-             <RefreshCw size={24} />
-           </button>
+          <button
+            onClick={onResetMenu}
+            className="p-2 text-red-600 bg-white/80 rounded-full hover:bg-white"
+            title="Reset Menu Data"
+          >
+            <RefreshCw size={24} />
+          </button>
         )}
-        <button 
+        <button
           onClick={onToggleAdmin}
           className={`p-2 rounded-full transition-colors ${adminMode ? 'bg-white/80 text-[#004080]' : 'text-[#004080] hover:bg-white/40'}`}
           title="Toggle Admin Mode"
         >
           <Edit3 size={24} />
         </button>
-        <button 
-          onClick={onCartClick} 
+        <button
+          onClick={onCartClick}
           className="relative p-2 text-[#004080] hover:bg-white/40 rounded-full transition-colors"
         >
           <ShoppingBag size={32} />
@@ -113,14 +113,14 @@ const Header: React.FC<HeaderProps> = ({
   </header>
 );
 
-interface ImageEditorProps { 
-  currentImage: string; 
-  onImageUpdate: (newUrl: string) => void; 
+interface ImageEditorProps {
+  currentImage: string;
+  onImageUpdate: (newUrl: string) => void;
 }
 
-const ImageEditor: React.FC<ImageEditorProps> = ({ 
-  currentImage, 
-  onImageUpdate 
+const ImageEditor: React.FC<ImageEditorProps> = ({
+  currentImage,
+  onImageUpdate
 }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -143,19 +143,19 @@ const ImageEditor: React.FC<ImageEditorProps> = ({
   );
 };
 
-interface ProductCardProps { 
-  product: Product; 
-  quantity: number; 
-  onAdd: () => void; 
+interface ProductCardProps {
+  product: Product;
+  quantity: number;
+  onAdd: () => void;
   onRemove: () => void;
   adminMode: boolean;
   onUpdateImage: (id: string, newUrl: string) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ 
-  product, 
-  quantity, 
-  onAdd, 
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  quantity,
+  onAdd,
   onRemove,
   adminMode,
   onUpdateImage
@@ -196,37 +196,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className="bg-white rounded-2xl shadow-sm border border-[#A2C5EB]/30 overflow-hidden flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-md">
       <div className="relative aspect-square w-full bg-gray-100 flex items-center justify-center text-center">
         {!imgError ? (
-          <img 
-            src={imgSrc} 
-            alt={product.name} 
-            className="w-full h-full object-cover" 
+          <img
+            src={imgSrc}
+            alt={product.name}
+            className="w-full h-full object-cover"
             onError={handleImageError}
           />
         ) : (
           <div className="p-2 flex flex-col items-center justify-center h-full w-full bg-gray-200 text-gray-500">
             <ImageOff size={24} className="mb-2 opacity-50" />
-            <span className="text-[10px] font-mono break-all leading-tight">Missing:<br/>{product.image}</span>
+            <span className="text-[10px] font-mono break-all leading-tight">Missing:<br />{product.image}</span>
           </div>
         )}
-        
+
         {adminMode && (
-          <ImageEditor 
-            currentImage={product.image} 
+          <ImageEditor
+            currentImage={product.image}
             onImageUpdate={(url) => {
               setImgSrc(url);
               setImgError(false);
               onUpdateImage(product.id, url);
-            }} 
+            }}
           />
         )}
       </div>
       <div className="p-3 flex flex-col flex-grow">
         <h3 className="font-semibold text-gray-800 text-sm mb-1 line-clamp-2">{product.name}</h3>
         <p className="text-blue-900 font-bold text-sm mb-3">₹{product.price}</p>
-        
+
         <div className="mt-auto">
           {quantity === 0 ? (
-            <button 
+            <button
               onClick={onAdd}
               className="w-full py-2 bg-[#A2C5EB]/20 text-blue-900 font-semibold rounded-xl text-sm hover:bg-[#A2C5EB]/40 transition-colors flex items-center justify-center gap-1"
             >
@@ -245,17 +245,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 };
 
-interface CategoryTileProps { 
-  title: string; 
-  image: string; 
+interface CategoryTileProps {
+  title: string;
+  image: string;
   onClick: () => void;
   adminMode: boolean;
   onUpdateImage: (newUrl: string) => void;
 }
 
-const CategoryTile: React.FC<CategoryTileProps> = ({ 
-  title, 
-  image, 
+const CategoryTile: React.FC<CategoryTileProps> = ({
+  title,
+  image,
   onClick,
   adminMode,
   onUpdateImage
@@ -288,23 +288,23 @@ const CategoryTile: React.FC<CategoryTileProps> = ({
   };
 
   return (
-    <div 
+    <div
       className="group relative h-40 rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all bg-gray-200"
       onClick={onClick}
     >
       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors z-10" />
-      
+
       {!imgError ? (
-        <img 
-          src={imgSrc} 
-          alt={title} 
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+        <img
+          src={imgSrc}
+          alt={title}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           onError={handleImageError}
         />
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center bg-gray-300 text-gray-600 p-2 text-center">
           <ImageOff size={32} className="mb-2 opacity-50" />
-          <span className="text-[10px] font-mono break-all z-0">Missing:<br/>{image}</span>
+          <span className="text-[10px] font-mono break-all z-0">Missing:<br />{image}</span>
         </div>
       )}
 
@@ -313,13 +313,13 @@ const CategoryTile: React.FC<CategoryTileProps> = ({
       </div>
       {adminMode && (
         <div onClick={(e) => e.stopPropagation()}>
-          <ImageEditor 
-            currentImage={image} 
+          <ImageEditor
+            currentImage={image}
             onImageUpdate={(url) => {
               setImgSrc(url);
               setImgError(false);
               onUpdateImage(url);
-            }} 
+            }}
           />
         </div>
       )}
@@ -364,7 +364,7 @@ function App() {
   };
 
   // --- Navigation Logic ---
-  
+
   const currentView = viewStack[viewStack.length - 1];
 
   const goBack = () => {
@@ -418,7 +418,7 @@ function App() {
       alert("Please enter your mobile number");
       return;
     }
-    
+
     // Construct WhatsApp Message
     let message = `*New Order for Dezzerto*\n\n`;
     message += `Customer: ${mobileNumber}\n`;
@@ -432,7 +432,7 @@ function App() {
 
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    
+
     window.open(url, '_blank');
   };
 
@@ -465,7 +465,7 @@ function App() {
         if (updatedProducts !== c.products) return { ...c, products: updatedProducts }; // If changed
         // Check if any product was actually updated, if so return new object, else continue
         const hasChanged = c.products.some(p => p.id === productId);
-        if(hasChanged) return { ...c, products: updatedProducts };
+        if (hasChanged) return { ...c, products: updatedProducts };
       }
 
       // Check subcategories
@@ -545,7 +545,7 @@ function App() {
   const renderSubCategory = () => {
     const category = menu.find(c => c.id === selectedCategoryId);
     const subCategory = category?.subCategories?.find(sc => sc.id === selectedSubCategoryId);
-    
+
     if (!subCategory) return <div>SubCategory not found</div>;
 
     return (
@@ -615,8 +615,8 @@ function App() {
               <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Mobile Number</label>
               <div className="flex items-center bg-gray-50 rounded-xl px-3 py-3 border border-gray-200 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
                 <Phone size={18} className="text-gray-400 mr-2" />
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value)}
                   placeholder="Enter your 10-digit number"
@@ -624,13 +624,13 @@ function App() {
                 />
               </div>
             </div>
-            
+
             <div className="flex justify-between items-end mb-4 text-gray-800">
               <span className="text-sm font-medium text-gray-500">Total Amount</span>
               <span className="text-2xl font-bold">₹{cartTotal}</span>
             </div>
 
-            <button 
+            <button
               onClick={placeOrder}
               disabled={!mobileNumber}
               className="w-full bg-blue-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -655,24 +655,33 @@ function App() {
   }
 
   return (
-    <div 
+    <div
       className="min-h-screen pb-20 max-w-md mx-auto relative shadow-2xl overflow-hidden rounded-[40px] my-4"
       style={BLUE_GRID_STYLE}
     >
-      <Header 
-        cartCount={cartItemCount} 
-        onCartClick={() => setIsCartOpen(true)} 
-        adminMode={adminMode} 
+      <Header
+        cartCount={cartItemCount}
+        onCartClick={() => setIsCartOpen(true)}
+        adminMode={adminMode}
         onToggleAdmin={() => setAdminMode(!adminMode)}
-        onHomeClick={goHome} 
+        onHomeClick={goHome}
         onResetMenu={handleResetMenu}
       />
-      
+
       {/* Breadcrumb / Back Navigation */}
-      {viewStack.length > 1 && (
+      {/* {viewStack.length > 1 && (
         <div className="sticky top-[108px] z-40 bg-[#A2C5EB]/95 backdrop-blur-sm px-4 py-2 border-b border-white/20 flex items-center gap-2 shadow-sm">
           <button onClick={goBack} className="p-1 hover:bg-white/20 rounded-full transition-colors text-white">
             <ArrowLeft size={20} />
+          </button>
+          <span className="font-bold text-[#004080] text-lg">{viewTitle}</span>
+        </div>
+      )} */}
+
+      {viewStack.length > 1 && (
+        <div className="sticky top-[108px] z-40 bg-[#A2C5EB]/95 backdrop-blur-sm px-4 py-2 border-b border-white/20 flex items-center gap-2 shadow-sm">
+          <button onClick={goBack} className="p-1.5 bg-white/30 hover:bg-white/50 rounded-full transition-colors text-[#004080] shadow-sm mr-2">
+            <ArrowLeft size={24} strokeWidth={3} />
           </button>
           <span className="font-bold text-[#004080] text-lg">{viewTitle}</span>
         </div>
@@ -685,7 +694,7 @@ function App() {
       {/* Floating Action Button for Cart (Mobile Sticky) */}
       {cartItemCount > 0 && !isCartOpen && (
         <div className="fixed bottom-4 left-0 right-0 max-w-md mx-auto px-4 z-40">
-          <button 
+          <button
             onClick={() => setIsCartOpen(true)}
             className="w-full bg-blue-900 text-white p-4 rounded-2xl shadow-xl shadow-blue-200 flex justify-between items-center animate-bounce-slight"
           >
@@ -709,7 +718,7 @@ function App() {
           Admin Mode Active
         </div>
       )}
-      
+
       {/* Gemini AI Assistant */}
       <GeminiAssistant menuData={menu} />
     </div>
